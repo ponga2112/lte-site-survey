@@ -1,0 +1,361 @@
+# MODEM nifty commands
+# LTE bands (extended): '1, 2, 3, 4, 5, 7, 8, 12, 13, 18, 19, 20, 25, 26, 28, 34, 38, 39, 40, 41, 66'
+
+
+qmicli -p -d /dev/cdc-wdm2 --dms-set-operating-mode='online'
+qmicli -p -d /dev/cdc-wdm2 --device-open-net='net-raw-ip|net-no-qos-header' --wds-start-network="apn='hologram',ip-type=4" --client-no-release-cid
+qmicli -p -d /dev/cdc-wdm2 --nas-network-scan
+qmicli -p -d /dev/cdc-wdm2 --nas-get-system-info
+qmicli -p -d /dev/cdc-wdm2 --dms-reset
+qmicli -p -d /dev/cdc-wdm2 --nas-get-cell-location-info
+qmicli -p -d /dev/cdc-wdm2 --nas-set-system-selection-preference=lte,manual=311490
+
+
+qmicli -p -d /dev/cdc-wdm2 --nas-set-system-selection-preference=lte,manual=311490; sleep 1; qmicli -p -d /dev/cdc-wdm2 --nas-get-system-info
+
+# qmilte.py RESULTS
+
+# python3 ./qmilte.py -p -d /dev/cdc-wdm2
+
+
+[+] Using modem  'QUALCOMM INCORPORATED' Model:  'SIMCOM_SIM7600G-H', Rev.  'LE20B03SIM7600M22' 
+[+] Running nas-network-scan... |
+done.
+[+] Found 7 networks: ['310120', '310260', '310410', '311480', '311490', '312530', '313100']
+[+]   Selecting PLMN 310120...done.
+[+]   Selecting PLMN 310260...done.
+[+]   Selecting PLMN 310410...done.
+[+]   Selecting PLMN 311480...done.
+[+]   Selecting PLMN 311490...done.
+[+]   Selecting PLMN 312530...done.
+[+]   Selecting PLMN 313100...done.
+[+] Scan Complete.
+
+Results: 
+{
+    "last_seen_ts": 1651255195,
+    "last_seen_str": "2022-04-29T10:59:55.480701",
+    "plmn": "310120",
+    "mcc": "310",
+    "mnc": "120",
+    "operator": "[US] / Sprint Spectrum",
+    "cid": 115362843,
+    "pci": 47,
+    "tac": 13403,
+    "earfcn": 8763,
+    "freq_dl_mhz": 866.3,
+    "band": 26,
+    "rsrp_dbm": -111.0,
+    "reg_status": "limited-regional",
+    "api_wigle": false,
+    "api_opencellid": false,
+    "api_mozilla": false,
+    "api_google": false,
+    "coords_lat": 0.0,
+    "coords_lon": 0.0
+}
+{
+    "last_seen_ts": 1651255196,
+    "last_seen_str": "2022-04-29T10:59:56.791902",
+    "plmn": "310260",
+    "mcc": "310",
+    "mnc": "260",
+    "operator": "[US] / T-Mobile",
+    "cid": 22228491,
+    "pci": 258,
+    "tac": 13403,
+    "earfcn": 675,
+    "freq_dl_mhz": 1937.5,
+    "band": 2,
+    "rsrp_dbm": -108.1,
+    "reg_status": "limited",
+    "api_wigle": false,
+    "api_opencellid": false,
+    "api_mozilla": false,
+    "api_google": false,
+    "coords_lat": 0.0,
+    "coords_lon": 0.0
+}
+{
+    "last_seen_ts": 1651255198,
+    "last_seen_str": "2022-04-29T10:59:58.105579",
+    "plmn": "310410",
+    "mcc": "310",
+    "mnc": "410",
+    "operator": "[US] / AT&T Wireless Inc.",
+    "cid": 124650355,
+    "pci": 377,
+    "tac": 13403,
+    "earfcn": 2175,
+    "freq_dl_mhz": 2132.5,
+    "band": 4,
+    "rsrp_dbm": -86.7,
+    "reg_status": "limited",
+    "api_wigle": false,
+    "api_opencellid": false,
+    "api_mozilla": false,
+    "api_google": false,
+    "coords_lat": 0.0,
+    "coords_lon": 0.0
+}
+{
+    "last_seen_ts": 1651255199,
+    "last_seen_str": "2022-04-29T10:59:59.415292",
+    "plmn": "311480",
+    "mcc": "311",
+    "mnc": "480",
+    "operator": "[US] / Verizon Wireless",
+    "cid": 5973536,
+    "pci": 41,
+    "tac": 5892,
+    "earfcn": 2050,
+    "freq_dl_mhz": 2120.0,
+    "band": 4,
+    "rsrp_dbm": -104.2,
+    "reg_status": "limited-regional",
+    "api_wigle": false,
+    "api_opencellid": false,
+    "api_mozilla": false,
+    "api_google": false,
+    "coords_lat": 0.0,
+    "coords_lon": 0.0
+}
+{
+    "last_seen_ts": 1651255200,
+    "last_seen_str": "2022-04-29T11:00:00.694656",
+    "plmn": "311490",
+    "mcc": "311",
+    "mnc": "490",
+    "operator": "[US] / Verizon Wireless",
+    "cid": 22228491,
+    "pci": 269,
+    "tac": 13403,
+    "earfcn": 675,
+    "freq_dl_mhz": 1937.5,
+    "band": 2,
+    "rsrp_dbm": -107.3,
+    "reg_status": "limited-regional",
+    "api_wigle": false,
+    "api_opencellid": false,
+    "api_mozilla": false,
+    "api_google": false,
+    "coords_lat": 0.0,
+    "coords_lon": 0.0
+}
+{
+    "last_seen_ts": 1651255202,
+    "last_seen_str": "2022-04-29T11:00:02.008526",
+    "plmn": "312530",
+    "mcc": "312",
+    "mnc": "530",
+    "operator": "[US] / Sprint Spectrum",
+    "cid": 115362843,
+    "pci": 47,
+    "tac": 13403,
+    "earfcn": 8763,
+    "freq_dl_mhz": 866.3,
+    "band": 26,
+    "rsrp_dbm": -110.6,
+    "reg_status": "limited-regional",
+    "api_wigle": false,
+    "api_opencellid": false,
+    "api_mozilla": false,
+    "api_google": false,
+    "coords_lat": 0.0,
+    "coords_lon": 0.0
+}
+{
+    "last_seen_ts": 1651255203,
+    "last_seen_str": "2022-04-29T11:00:03.319515",
+    "plmn": "313100",
+    "mcc": "313",
+    "mnc": "100",
+    "operator": "[US] / US_PUBLIC_SAFETY_NETWORK",
+    "cid": 124650355,
+    "pci": 377,
+    "tac": 32779,
+    "earfcn": 2175,
+    "freq_dl_mhz": 2132.5,
+    "band": 4,
+    "rsrp_dbm": -86.7,
+    "reg_status": "limited-regional",
+    "api_wigle": false,
+    "api_opencellid": false,
+    "api_mozilla": false,
+    "api_google": false,
+    "coords_lat": 0.0,
+    "coords_lon": 0.0
+}
+
+Summary: 
+  7 Towers Found.
+  Network Operators: ['Sprint Spectrum', 'US_PUBLIC_SAFETY_NETWORK', 'AT&T Wireless Inc.', 'T-Mobile', 'Verizon Wireless']
+  Strongest Signal: {"plmn": "310410", "rsrp_dbm": -86.7, "band": 4, "freq_dl_mhz": 2132.5, "operator": "AT&T Wireless Inc."}
+
+Scan completed in 68 seconds.
+
+
+## SDR Results:
+# python3 sdrlte.py 
+Fri Apr 29 07:21:50 MST 2022 -> Fri Apr 29 08:20:39 MST 2022
+--> run time = 3,491 seconds
+--> eNBs found = 
+	3 positively identified (Capped 3 BCCH messages)
+	5 PARTIALLY identified (Missed 5 BCCH messages)
+    8 total towers seen (Capped 8 PSS messages)
+
+
+[
+    {
+        "mcc": "0",
+        "mnc": "0",
+        "tac": "0",
+        "cid": "0",
+        "phyid": "157",
+        "earfcn": "5035",
+        "rssi": "-31.0984",
+        "freq": "731.5",
+        "enb_id": "0",
+        "sector_id": "0",
+        "_cfo": "0.176657",
+        "rsrq": "-14.3394",
+        "snr": "0.716504",
+        "rsrp": "-2.23601",
+        "tx_pwr": "36.1216",
+        "_raw_sib1": "c88e523b3988da5248dfc616e6ba42f4b1b83100f444316860ac8059",
+        "seconds": "1651243791"
+    },
+    {
+        "mcc": "0",
+        "mnc": "0",
+        "tac": "0",
+        "cid": "0",
+        "phyid": "84",
+        "earfcn": "5230",
+        "rssi": "-30.0138",
+        "freq": "751",
+        "enb_id": "0",
+        "sector_id": "0",
+        "_cfo": "0.251454",
+        "rsrq": "-15.3542",
+        "snr": "-1.12576",
+        "rsrp": "-0.927639",
+        "tx_pwr": "19.6221",
+        "_raw_sib1": "4c0e668b9b49c17eb84990c11a01272299c31a0712e470300a36a720",
+        "seconds": "1651244009"
+    },
+    {
+        "mcc": "0",
+        "mnc": "0",
+        "tac": "0",
+        "cid": "0",
+        "phyid": "277",
+        "earfcn": "675",
+        "rssi": "-41.7981",
+        "freq": "1937.5",
+        "enb_id": "0",
+        "sector_id": "0",
+        "_cfo": "0.292671",
+        "rsrq": "-15.3682",
+        "snr": "-2.54176",
+        "rsrp": "-16.6977",
+        "tx_pwr": "-8.48425",
+        "_raw_sib1": "0d5473ed1996b50bf9f77a21a05e736517837d58ca6586f405a0859e",
+        "seconds": "1651244140"
+    },
+    {
+        "mcc": "0",
+        "mnc": "0",
+        "tac": "0",
+        "cid": "0",
+        "phyid": "84",
+        "earfcn": "775",
+        "rssi": "-41.8423",
+        "freq": "1947.5",
+        "enb_id": "0",
+        "sector_id": "0",
+        "_cfo": "0.977931",
+        "rsrq": "-15.6085",
+        "snr": "-0.806704",
+        "rsrp": "-19.5669",
+        "tx_pwr": "8.57776",
+        "_raw_sib1": "e04c4e36a0b90050041b1edb40678776800c1cdd083b32535ddc4a2a",
+        "seconds": "1651244269"
+    },
+    {
+        "mcc": "310",
+        "mnc": "410",
+        "tac": "32779",
+        "cid": "124650339",
+        "phyid": "23",
+        "earfcn": "1050",
+        "rssi": "-31.5059",
+        "freq": "1975",
+        "enb_id": "486915",
+        "sector_id": "99",
+        "_cfo": "0.939425",
+        "rsrq": "-12.5749",
+        "snr": "1.25678",
+        "rsrp": "3.23464",
+        "tx_pwr": "34.0528",
+        "_raw_sib1": "68cc42821989c4030016edc06c703ea08c80840c22611d1b4960c000",
+        "seconds": "1651244402"
+    },
+    {
+        "mcc": "0",
+        "mnc": "0",
+        "tac": "0",
+        "cid": "0",
+        "phyid": "277",
+        "earfcn": "8115",
+        "rssi": "-41.1633",
+        "freq": "1937.5",
+        "enb_id": "0",
+        "sector_id": "0",
+        "_cfo": "1.19985",
+        "rsrq": "-15.2256",
+        "snr": "-3.60792",
+        "rsrp": "-15.1401",
+        "tx_pwr": "-10.059",
+        "_raw_sib1": "3008c7120d6467711c8662a4c5d100446550fe8240f5c1360dedbc57",
+        "seconds": "1651244657"
+    },
+    {
+        "mcc": "311",
+        "mnc": "480",
+        "tac": "5892",
+        "cid": "5942282",
+        "phyid": "84",
+        "earfcn": "8215",
+        "rssi": "-41.5578",
+        "freq": "1947.5",
+        "enb_id": "23212",
+        "sector_id": "10",
+        "_cfo": "0.28688",
+        "rsrq": "-15.7267",
+        "snr": "-1.99277",
+        "rsrp": "-19.6045",
+        "tx_pwr": "7.8182",
+        "_raw_sib1": "484c46901170405aac0a3440222103108ac212fc0a0c0a9289d60000",
+        "seconds": "1651244846"
+    },
+    {
+        "mcc": "310",
+        "mnc": "410",
+        "tac": "32779",
+        "cid": "124650339",
+        "phyid": "23",
+        "earfcn": "8490",
+        "rssi": "-30.6579",
+        "freq": "1975",
+        "enb_id": "486915",
+        "sector_id": "99",
+        "_cfo": "0.794143",
+        "rsrq": "-11.9266",
+        "snr": "3.87825",
+        "rsrp": "3.36996",
+        "tx_pwr": "34.3571",
+        "_raw_sib1": "68cc42821989c4030016edc06c703ea08c80840c22611d1b4960ec00",
+        "seconds": "1651244852"
+    }
+]
