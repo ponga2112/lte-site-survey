@@ -22,8 +22,7 @@ test_json = [
         "band": 26,
         "rsrp_dbm": -111,
         "reg_status": "limited-regional",
-        "coords_lat": 0,
-        "coords_lon": 0,
+        "risk_level": 7,
         "api": [],
     },
     {
@@ -41,8 +40,7 @@ test_json = [
         "band": 2,
         "rsrp_dbm": -108.1,
         "reg_status": "limited",
-        "coords_lat": 0,
-        "coords_lon": 0,
+        "risk_level": 7,
         "api": [],
     },
     {
@@ -60,8 +58,7 @@ test_json = [
         "band": 4,
         "rsrp_dbm": -86.7,
         "reg_status": "limited",
-        "coords_lat": 0,
-        "coords_lon": 0,
+        "risk_level": 7,
         "api": [],
     },
     {
@@ -79,8 +76,7 @@ test_json = [
         "band": 4,
         "rsrp_dbm": -104.2,
         "reg_status": "limited-regional",
-        "coords_lat": 0,
-        "coords_lon": 0,
+        "risk_level": 7,
         "api": [],
     },
     {
@@ -98,8 +94,7 @@ test_json = [
         "band": 2,
         "rsrp_dbm": -107.3,
         "reg_status": "limited-regional",
-        "coords_lat": 0,
-        "coords_lon": 0,
+        "risk_level": 7,
         "api": [],
     },
     {
@@ -117,8 +112,7 @@ test_json = [
         "band": 26,
         "rsrp_dbm": -110.6,
         "reg_status": "limited-regional",
-        "coords_lat": 0,
-        "coords_lon": 0,
+        "risk_level": 7,
         "api": [],
     },
     {
@@ -136,8 +130,7 @@ test_json = [
         "band": 4,
         "rsrp_dbm": -86.7,
         "reg_status": "limited-regional",
-        "coords_lat": 0,
-        "coords_lon": 0,
+        "risk_level": 7,
         "api": [],
     },
 ]
@@ -158,14 +151,18 @@ class API:
         if resp.status_code != 200:
             return cell
         j = resp.json()
-        cell.api.append(
-            {
-                "src": "wigle",
-                "last_seen": j["lastUpdate"],
-                "lat": j["trilateratedLatitude"],
-                "lon": j["trilateratedLongitude"],
-            }
-        )
+        try:
+            cell.api.append(
+                {
+                    "src": "wigle",
+                    "last_seen": j["lastUpdate"],
+                    "lat": j["trilateratedLatitude"],
+                    "lon": j["trilateratedLongitude"],
+                }
+            )
+            cell.risk_level = cell.risk_level - 2
+        except:
+            pass
         return cell
 
     def api_google(self, cell: Cell) -> Cell:
@@ -190,7 +187,15 @@ class API:
         resp = requests.post(
             "https://www.googleapis.com/geolocation/v1/geolocate?key=" + self.google_api_key, json=post_data
         )
-        print(resp.json())
+        j = resp.json()
+        try:
+            cell.api.append(
+                {"src": "google", "last_seen": "", "lat": j["location"]["lat"], "lon": j["location"]["lng"]}
+            )
+            cell.risk_level = cell.risk_level - 2
+        except:
+            pass
+        return cell
 
     @staticmethod
     def dict_to_cell(cell_dict: dict) -> Cell:
@@ -209,8 +214,7 @@ class API:
         cell.band = cell_dict["band"]
         cell.rsrp_dbm = cell_dict["rsrp_dbm"]
         cell.reg_status = cell_dict["reg_status"]
-        cell.coords_lat = cell_dict["coords_lat"]
-        cell.coords_lon = cell_dict["coords_lon"]
+        cell.risk_level = cell_dict["risk_level"]
         cell.api = cell_dict["api"]
         return cell
 
@@ -251,9 +255,13 @@ if __name__ == "__main__":
     for i in test_json:
         cells.append(api.dict_to_cell(i))
     results = []
-    for i in cells:
-        results.append(api.api_google(i))
+    for k, v in enumerate(cells):
+        cells[k] = api.api_wigle(v)
+        cells[k] = api.api_google(v)
+        # api.api_google(i)
     # for i in results:
     #     print(f"{i.plmn}: {i.operator}")
     #     print(json.dumps(i.api))
-
+    for i in cells:
+        # TODO: print in COLOR
+        i.print()

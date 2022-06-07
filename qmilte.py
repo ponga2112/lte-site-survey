@@ -48,16 +48,37 @@ class Cell:
         self.band = 0
         self.rsrp_dbm = 0.0
         self.reg_status = ""
-        self.coords_lat = 0.0
-        self.coords_lon = 0.0
+        self.risk_level = 7  # Risk Level: {0..10} where 0 is trustworthy and 10 is almost certainly an IMSI catcher
         self.api = []
 
+    @staticmethod
+    def _colorize_print(d: dict) -> str:
+        bc = ""
+        if d["risk_level"] > -1 and d["risk_level"] < 4:
+            bc = bcolors.OKGREEN
+        if d["risk_level"] > 3 and d["risk_level"] < 7:
+            bc = bcolors.WARNING
+        if d["risk_level"] > 6:
+            bc = bcolors.FAIL
+        print(f"{bc}{json.dumps(d,indent=4)}{bcolors.ENDC}")
 
     def __str__(self):
         return json.dumps(vars(self))
 
     def print(self):
-        print(json.dumps(vars(self), indent=4))
+        self._colorize_print(vars(self))
+
+
+class bcolors:
+    HEADER = "\033[95m"
+    OKBLUE = "\033[94m"
+    OKCYAN = "\033[96m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
 
 
 def scan() -> dict:
