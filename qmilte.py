@@ -32,12 +32,6 @@ PRACH_TIMEOUT = 1
 PRACH_RETRIES = 2
 
 
-# Sources
-# TODO: need mcc/mnc list
-# TODO: need to resolve earfcn to FREQ
-# TODO: Need to resolve either earfcn or freq to BAND
-
-
 class Cell:
     def __init__(self):
         self.last_seen_ts = 0
@@ -54,12 +48,10 @@ class Cell:
         self.band = 0
         self.rsrp_dbm = 0.0
         self.reg_status = ""
-        self.api_wigle = False
-        self.api_opencellid = False
-        self.api_mozilla = False
-        self.api_google = False
         self.coords_lat = 0.0
         self.coords_lon = 0.0
+        self.api = []
+
 
     def __str__(self):
         return json.dumps(vars(self))
